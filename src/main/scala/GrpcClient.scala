@@ -20,8 +20,9 @@ object HelloWorldClient {
     val f: Future[HelloReply] = stub.sayHello(request)
     f.map { response =>
       logger.info("Greeting: " + response.message)
-    }.recover { err =>
-      logger.warning(s"Failed: $err")
+    }.recover {
+      case err =>
+        logger.warning(s"Failed: $err")
     }
 
     Await.ready(f, Duration(10, TimeUnit.SECONDS))

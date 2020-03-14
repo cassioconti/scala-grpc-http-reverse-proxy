@@ -21,8 +21,8 @@ protoc -I. -I%GOPATH%/src -I%GOPATH%/src/github.com/grpc-ecosystem/grpc-gateway/
 protoc -I. -I%GOPATH%/src -I%GOPATH%/src/github.com/grpc-ecosystem/grpc-gateway/third_party/googleapis -I%GOPATH%/src/github.com/grpc-ecosystem/grpc-gateway --swagger_out=logtostderr=true:. hello.proto
 
 ### Move files to subfolder
-move hello.pb.go ./com_example_protos/hello.pb.go
-move hello.pb.gw.go ./com_example_protos/hello.pb.gw.go
+move /y hello.pb.go ./com_example_protos/hello.pb.go
+move /y hello.pb.gw.go ./com_example_protos/hello.pb.gw.go
 
 ### Build
 go build
