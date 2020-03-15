@@ -1,15 +1,15 @@
 import java.util.concurrent.TimeUnit
 import java.util.logging.Logger
 
-import com.example.protos.hello.{GreeterGrpc, HelloReply, HelloRequest}
+import com.example.protos.hello.{GreeterGrpc, HelloRequest}
 import io.grpc.ManagedChannelBuilder
 
 import scala.concurrent.duration.Duration
 import scala.concurrent.{Await, ExecutionContext, Future}
 
-object HelloWorldClient {
+object GrpcClient {
   implicit val ec = ExecutionContext.global
-  private val logger = Logger.getLogger(HelloWorldClient.getClass.getName)
+  private val logger = Logger.getLogger(GrpcClient.getClass.getName)
 
   def main(args: Array[String]): Unit = {
     val channel = ManagedChannelBuilder.forAddress("localhost", 50051).usePlaintext().build
@@ -17,8 +17,7 @@ object HelloWorldClient {
     logger.info("Will try to greet " + name + " ...")
     val request = HelloRequest(name = name)
     val stub = GreeterGrpc.stub(channel)
-    val f: Future[HelloReply] = stub.sayHello(request)
-    f.map { response =>
+    val f: Future[Unit] = stub.sayHello(request).map { response =>
       logger.info("Greeting: " + response.message)
     }.recover {
       case err =>
@@ -26,6 +25,6 @@ object HelloWorldClient {
     }
 
     Await.ready(f, Duration(10, TimeUnit.SECONDS))
-    channel.shutdown.awaitTermination(1, TimeUnit.MINUTES)
+    channel.shutdown.awaitTermination(10, TimeUnit.SECONDS)
   }
 }

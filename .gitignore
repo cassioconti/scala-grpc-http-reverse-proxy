@@ -1,2 +1,3 @@
 .idea/
+src/main/protobuf/http-proxy.exe
 target/

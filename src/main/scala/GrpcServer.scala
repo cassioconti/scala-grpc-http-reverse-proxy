@@ -20,7 +20,8 @@ class GrpcServer(executionContext: ExecutionContext) {
   private var server: Server = null
 
   private def start(): Unit = {
-    this.server = ServerBuilder.forPort(GrpcServer.port).addService(GreeterGrpc.bindService(new GreeterImpl, executionContext)).build.start
+    val serverImpl = new GreeterImpl
+    this.server = ServerBuilder.forPort(GrpcServer.port).addService(GreeterGrpc.bindService(serverImpl, executionContext)).build.start
     this.logger.info("Server started, listening on " + GrpcServer.port)
     sys.addShutdownHook {
       System.err.println("*** shutting down gRPC server since JVM is shutting down")
