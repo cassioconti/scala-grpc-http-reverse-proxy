@@ -1,5 +1,7 @@
 .bloop/
 .idea/
 .metals/
+project/metals.sbt
+src/main/protobuf/http-proxy
 src/main/protobuf/http-proxy.exe
 target/
