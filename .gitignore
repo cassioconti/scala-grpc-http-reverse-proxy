@@ -1,3 +1,5 @@
+.bloop/
 .idea/
+.metals/
 src/main/protobuf/http-proxy.exe
 target/

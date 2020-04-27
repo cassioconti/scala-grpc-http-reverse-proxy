@@ -1,20 +1,43 @@
 syntax = "proto3";
 
-package com.example.protos;
+option go_package = "example.com/protos";
+option java_package = "com.example.protos";
 
 import "google/api/annotations.proto";
+import "protoc-gen-swagger/options/annotations.proto";
 
-// The request message containing the user's name.
+option (grpc.gateway.protoc_gen_swagger.options.openapiv2_swagger) = {
+    info: {
+      title: "Greeter";
+      version: "1.0";
+    };
+    schemes: HTTP;
+    consumes: "application/json";
+    produces: "application/json";
+    host: "localhost";
+    responses: {
+		key: "500";
+		value: {
+			description: "Unexpected error";
+			schema: {
+				json_schema: {
+					ref: ".HelloReply";
+				}
+			}
+		}
+	}
+  };
+
 message HelloRequest {
+    // The user's name.
     string name = 1;
 }
 
-// The response message containing the greetings
 message HelloReply {
+    // The response message.
     string message = 1;
 }
 
-// The greeting service definition.
 service Greeter {
     // Sends a greeting
     rpc SayHello (HelloRequest) returns (HelloReply) {

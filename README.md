@@ -2,7 +2,10 @@
 
 ## gRPC scala server setup
 
-Under construction...
+- sbt "runMain GrpcServer"
+or
+- sbt assembly
+- java -cp "target/scala-2.12/my-grpc-experiment_2.12-1.0.jar" GrpcServer
 
 ## HTTP reverse proxy setup
 
@@ -14,15 +17,17 @@ go get -u github.com/grpc-ecosystem/grpc-gateway/protoc-gen-grpc-gateway github.
 ### Generate gRPC for go
 protoc -I. -I%GOPATH%/src -I%GOPATH%/src/github.com/grpc-ecosystem/grpc-gateway/third_party/googleapis -I%GOPATH%/src/github.com/grpc-ecosystem/grpc-gateway --go_out=plugins=grpc:. hello.proto
 
+protoc -I. -I$GOPATH/src -I$GOPATH/src/github.com/grpc-ecosystem/grpc-gateway/third_party/googleapis -I$GOPATH/src/github.com/grpc-ecosystem/grpc-gateway --go_out=plugins=grpc:. hello.proto
+
 ### Generate reverse-proxy
 protoc -I. -I%GOPATH%/src -I%GOPATH%/src/github.com/grpc-ecosystem/grpc-gateway/third_party/googleapis -I%GOPATH%/src/github.com/grpc-ecosystem/grpc-gateway --grpc-gateway_out=logtostderr=true:. hello.proto
 
-### Generate Swagger
-protoc -I. -I%GOPATH%/src -I%GOPATH%/src/github.com/grpc-ecosystem/grpc-gateway/third_party/googleapis -I%GOPATH%/src/github.com/grpc-ecosystem/grpc-gateway --swagger_out=logtostderr=true:. hello.proto
+protoc -I. -I$GOPATH/src -I$GOPATH/src/github.com/grpc-ecosystem/grpc-gateway/third_party/googleapis -I$GOPATH/src/github.com/grpc-ecosystem/grpc-gateway --grpc-gateway_out=logtostderr=true:. hello.proto
 
-### Move files to subfolder
-move /y hello.pb.go ./com_example_protos/hello.pb.go
-move /y hello.pb.gw.go ./com_example_protos/hello.pb.gw.go
+### Generate Swagger
+protoc -I. -I%GOPATH%/src -I%GOPATH%/src/github.com/grpc-ecosystem/grpc-gateway/third_party/googleapis -I%GOPATH%/src/github.com/grpc-ecosystem/grpc-gateway --swagger_out=logtostderr=true,disable_default_errors=true:. hello.proto
+
+protoc -I. -I$GOPATH/src -I$GOPATH/src/github.com/grpc-ecosystem/grpc-gateway/third_party/googleapis -I$GOPATH/src/github.com/grpc-ecosystem/grpc-gateway --swagger_out=logtostderr=true,disable_default_errors=true:. hello.proto
 
 ### Build
 go build

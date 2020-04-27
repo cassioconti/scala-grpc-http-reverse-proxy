@@ -16,7 +16,7 @@ object GrpcServer {
 }
 
 class GrpcServer(executionContext: ExecutionContext) {
-  private val logger = Logger.getLogger(classOf[GrpcServer].getName)
+  private val logger = Logger.getLogger(this.getClass.getName)
   private var server: Server = null
 
   private def start(): Unit = {

@@ -1,9 +1,13 @@
 {
   "swagger": "2.0",
   "info": {
-    "title": "hello.proto",
-    "version": "version not set"
+    "title": "Greeter",
+    "version": "1.0"
   },
+  "host": "localhost",
+  "schemes": [
+    "http"
+  ],
   "consumes": [
     "application/json"
   ],
@@ -14,24 +18,25 @@
     "/v1/example/sayhello": {
       "get": {
         "summary": "Sends a greeting",
-        "operationId": "SayHello",
+        "operationId": "Greeter_SayHello",
         "responses": {
           "200": {
             "description": "A successful response.",
             "schema": {
-              "$ref": "#/definitions/protosHelloReply"
+              "$ref": "#/definitions/HelloReply"
             }
           },
-          "default": {
-            "description": "An unexpected error response",
+          "500": {
+            "description": "Unexpected error",
             "schema": {
-              "$ref": "#/definitions/runtimeError"
+              "$ref": "#/definitions/HelloReply"
             }
           }
         },
         "parameters": [
           {
             "name": "name",
+            "description": "The user's name.",
             "in": "query",
             "required": false,
             "type": "string"
@@ -44,45 +49,12 @@
     }
   },
   "definitions": {
-    "protobufAny": {
+    "HelloReply": {
       "type": "object",
       "properties": {
-        "type_url": {
-          "type": "string"
-        },
-        "value": {
+        "message": {
           "type": "string",
-          "format": "byte"
-        }
-      }
-    },
-    "protosHelloReply": {
-      "type": "object",
-      "properties": {
-        "message": {
-          "type": "string"
-        }
-      },
-      "title": "The response message containing the greetings"
-    },
-    "runtimeError": {
-      "type": "object",
-      "properties": {
-        "error": {
-          "type": "string"
-        },
-        "code": {
-          "type": "integer",
-          "format": "int32"
-        },
-        "message": {
-          "type": "string"
-        },
-        "details": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/protobufAny"
-          }
+          "description": "The response message."
         }
       }
     }

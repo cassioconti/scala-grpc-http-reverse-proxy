@@ -2,11 +2,11 @@
 // source: hello.proto
 
 /*
-Package com_example_protos is a reverse proxy.
+Package protos is a reverse proxy.
 
 It translates gRPC into RESTful JSON APIs.
 */
-package com_example_protos
+package protos
 
 import (
 	"context"
@@ -55,7 +55,10 @@ func local_request_Greeter_SayHello_0(ctx context.Context, marshaler runtime.Mar
 	var protoReq HelloRequest
 	var metadata runtime.ServerMetadata
 
-	if err := runtime.PopulateQueryParameters(&protoReq, req.URL.Query(), filter_Greeter_SayHello_0); err != nil {
+	if err := req.ParseForm(); err != nil {
+		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
+	}
+	if err := runtime.PopulateQueryParameters(&protoReq, req.Form, filter_Greeter_SayHello_0); err != nil {
 		return nil, metadata, status.Errorf(codes.InvalidArgument, "%v", err)
 	}
 
