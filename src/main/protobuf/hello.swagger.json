@@ -40,6 +40,18 @@
             "in": "query",
             "required": false,
             "type": "string"
+          },
+          {
+            "name": "traceId",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "spanId",
+            "in": "query",
+            "required": false,
+            "type": "string"
           }
         ],
         "tags": [

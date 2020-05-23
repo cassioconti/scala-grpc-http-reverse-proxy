@@ -11,6 +11,8 @@ import io.opencensus.trace.{Span, SpanContext, TraceId, Tracing}
 import scala.concurrent.duration.Duration
 import scala.concurrent.{Await, ExecutionContext, Future}
 import io.opencensus.exporter.trace.logging.LoggingTraceExporter
+import io.opencensus.trace.TraceOptions
+import io.opencensus.trace.SpanId
 
 object GrpcClient {
   implicit val ec = ExecutionContext.global
@@ -26,7 +28,7 @@ object GrpcClient {
     val name = args.headOption.getOrElse("Cassio")
     logger.info("Will try to greet " + name + " ...")
     span.addAnnotation("logged name to greet")
-    val request = HelloRequest(name = name)
+    val request = HelloRequest(name = name, traceId = span.getContext().getTraceId().toLowerBase16(), spanId = span.getContext().getSpanId().toLowerBase16())
     span.addAnnotation("request created")
     val stub = addTracingMetadata(GreeterGrpc.stub(channel), span)
     val f: Future[Unit] = stub

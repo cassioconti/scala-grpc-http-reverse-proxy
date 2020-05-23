@@ -31,6 +31,8 @@ option (grpc.gateway.protoc_gen_swagger.options.openapiv2_swagger) = {
 message HelloRequest {
     // The user's name.
     string name = 1;
+    string traceId = 2;
+    string spanId = 3;
 }
 
 message HelloReply {
